@@ -1,0 +1,764 @@
+{
+  "uuid": "00574725-4897-4168-ac16-af9585df0baf",
+  "lastMigration": 32,
+  "name": "DataCore Hub — Mock MVP",
+  "endpointPrefix": "api/v1",
+  "latency": 0,
+  "port": 3001,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "d104b99b-9434-49d3-a57f-1d5f954d1210",
+      "documentation": "Healthcheck del servicio.",
+      "method": "get",
+      "endpoint": "health",
+      "responses": [
+        {
+          "uuid": "164c73f6-a4e6-4ba8-ac0f-14ddd83ca1c5",
+          "body": "{\n  \"status\": \"ok\",\n  \"service\": \"DataCore Hub Mock\",\n  \"version\": \"0.1.0-mvp\",\n  \"uptime_seconds\": 1234\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "06842c4a-2c7a-43aa-8c5b-ad2abc921b44",
+      "documentation": "Búsqueda paginada de empresas filtrada por código CIIU. Parámetros soportados: ciiu, page, size.",
+      "method": "get",
+      "endpoint": "empresas",
+      "responses": [
+        {
+          "uuid": "909a114d-a7d2-46c4-a497-046c4d732bc7",
+          "body": "{\n  \"page\": 1,\n  \"size\": 10,\n  \"total\": 6,\n  \"filtros_aplicados\": {\n    \"ciiu\": \"6201\"\n  },\n  \"items\": [\n    {\n      \"nit\": \"900111111-1\",\n      \"razon_social\": \"Empresa A S.A.S.\",\n      \"ciiu_principal\": \"6201\",\n      \"estado\": \"Activa\",\n      \"score_global\": 0.92\n    },\n    {\n      \"nit\": \"900222222-2\",\n      \"razon_social\": \"Empresa B S.A.S.\",\n      \"ciiu_principal\": \"6201\",\n      \"estado\": \"Activa\",\n      \"score_global\": 0.85\n    },\n    {\n      \"nit\": \"900333333-3\",\n      \"razon_social\": \"Empresa C Ltda.\",\n      \"ciiu_principal\": \"6202\",\n      \"estado\": \"Activa\",\n      \"score_global\": 0.78\n    },\n    {\n      \"nit\": \"900444444-4\",\n      \"razon_social\": \"Empresa D S.A.\",\n      \"ciiu_principal\": \"6209\",\n      \"estado\": \"Activa\",\n      \"score_global\": 0.71\n    },\n    {\n      \"nit\": \"900555555-5\",\n      \"razon_social\": \"Empresa E S.A.S.\",\n      \"ciiu_principal\": \"6201\",\n      \"estado\": \"Activa\",\n      \"score_global\": 0.66\n    },\n    {\n      \"nit\": \"900666666-6\",\n      \"razon_social\": \"Empresa F S.A.S.\",\n      \"ciiu_principal\": \"6201\",\n      \"estado\": \"Inactiva\",\n      \"score_global\": 0.55\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "1d2c74af-2dbc-4d92-b515-b9565283272c",
+      "documentation": "Detalle consolidado de una empresa por NIT, con todos sus indicadores y score global.",
+      "method": "get",
+      "endpoint": "empresas/:nit",
+      "responses": [
+        {
+          "uuid": "59bb74ad-f004-4774-a6a6-2d9d8913ea02",
+          "body": "{\n  \"nit\": \"900111111-1\",\n  \"razon_social\": \"Empresa A S.A.S.\",\n  \"ciiu_principal\": \"6201\",\n  \"ciiu_secundarios\": [\n    \"6202\",\n    \"6209\"\n  ],\n  \"estado\": \"Activa\",\n  \"fecha_constitucion\": \"2015-04-12\",\n  \"fuentes_consultadas\": [\n    \"RUES\",\n    \"Cámara de Comercio\",\n    \"Superintendencia de Sociedades\"\n  ],\n  \"score_global\": 0.92,\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"descripcion\": \"Número de empleados\",\n      \"valor\": 47,\n      \"unidad\": \"personas\",\n      \"periodo\": \"2024\",\n      \"score\": 0.95,\n      \"fuente_principal\": \"Superintendencia de Sociedades\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"descripcion\": \"Ingresos operacionales anuales\",\n      \"valor\": 1280000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.9,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    },\n    {\n      \"codigo\": \"activos_totales\",\n      \"descripcion\": \"Activos totales\",\n      \"valor\": 850000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.88,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Detalle Empresa A S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900111111-1",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "3389a2ef-0c0d-4ee3-8227-1028c36b6616",
+          "body": "{\n  \"nit\": \"900222222-2\",\n  \"razon_social\": \"Empresa B S.A.S.\",\n  \"ciiu_principal\": \"6201\",\n  \"ciiu_secundarios\": [\n    \"6202\",\n    \"6209\"\n  ],\n  \"estado\": \"Activa\",\n  \"fecha_constitucion\": \"2018-08-21\",\n  \"fuentes_consultadas\": [\n    \"RUES\",\n    \"Cámara de Comercio\",\n    \"Superintendencia de Sociedades\"\n  ],\n  \"score_global\": 0.85,\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"descripcion\": \"Número de empleados\",\n      \"valor\": 23,\n      \"unidad\": \"personas\",\n      \"periodo\": \"2024\",\n      \"score\": 0.88,\n      \"fuente_principal\": \"Superintendencia de Sociedades\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"descripcion\": \"Ingresos operacionales anuales\",\n      \"valor\": 540000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.83,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    },\n    {\n      \"codigo\": \"activos_totales\",\n      \"descripcion\": \"Activos totales\",\n      \"valor\": 320000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.81,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Detalle Empresa B S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900222222-2",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "ffb0eaec-6ff0-46c1-88d2-b953e06bc6ba",
+          "body": "{\n  \"nit\": \"900333333-3\",\n  \"razon_social\": \"Empresa C Ltda.\",\n  \"ciiu_principal\": \"6202\",\n  \"ciiu_secundarios\": [\n    \"6202\",\n    \"6209\"\n  ],\n  \"estado\": \"Activa\",\n  \"fecha_constitucion\": \"2020-02-03\",\n  \"fuentes_consultadas\": [\n    \"RUES\",\n    \"Cámara de Comercio\",\n    \"Superintendencia de Sociedades\"\n  ],\n  \"score_global\": 0.78,\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"descripcion\": \"Número de empleados\",\n      \"valor\": 12,\n      \"unidad\": \"personas\",\n      \"periodo\": \"2024\",\n      \"score\": 0.81,\n      \"fuente_principal\": \"Superintendencia de Sociedades\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"descripcion\": \"Ingresos operacionales anuales\",\n      \"valor\": 210000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.76,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    },\n    {\n      \"codigo\": \"activos_totales\",\n      \"descripcion\": \"Activos totales\",\n      \"valor\": 140000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.74,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Detalle Empresa C Ltda.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900333333-3",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "6aa01b89-3c03-44bd-866f-2e0497b04eee",
+          "body": "{\n  \"nit\": \"900444444-4\",\n  \"razon_social\": \"Empresa D S.A.\",\n  \"ciiu_principal\": \"6209\",\n  \"ciiu_secundarios\": [\n    \"6202\",\n    \"6209\"\n  ],\n  \"estado\": \"Activa\",\n  \"fecha_constitucion\": \"2021-11-15\",\n  \"fuentes_consultadas\": [\n    \"RUES\",\n    \"Cámara de Comercio\",\n    \"Superintendencia de Sociedades\"\n  ],\n  \"score_global\": 0.71,\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"descripcion\": \"Número de empleados\",\n      \"valor\": 9,\n      \"unidad\": \"personas\",\n      \"periodo\": \"2024\",\n      \"score\": 0.74,\n      \"fuente_principal\": \"Superintendencia de Sociedades\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"descripcion\": \"Ingresos operacionales anuales\",\n      \"valor\": 180000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.69,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    },\n    {\n      \"codigo\": \"activos_totales\",\n      \"descripcion\": \"Activos totales\",\n      \"valor\": 95000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.67,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Detalle Empresa D S.A.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900444444-4",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "31a547e1-90bf-4df0-9f04-33cca4d88e17",
+          "body": "{\n  \"nit\": \"900555555-5\",\n  \"razon_social\": \"Empresa E S.A.S.\",\n  \"ciiu_principal\": \"6201\",\n  \"ciiu_secundarios\": [\n    \"6202\",\n    \"6209\"\n  ],\n  \"estado\": \"Activa\",\n  \"fecha_constitucion\": \"2023-06-08\",\n  \"fuentes_consultadas\": [\n    \"RUES\",\n    \"Cámara de Comercio\",\n    \"Superintendencia de Sociedades\"\n  ],\n  \"score_global\": 0.66,\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"descripcion\": \"Número de empleados\",\n      \"valor\": 5,\n      \"unidad\": \"personas\",\n      \"periodo\": \"2024\",\n      \"score\": 0.69,\n      \"fuente_principal\": \"Superintendencia de Sociedades\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"descripcion\": \"Ingresos operacionales anuales\",\n      \"valor\": 95000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.64,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    },\n    {\n      \"codigo\": \"activos_totales\",\n      \"descripcion\": \"Activos totales\",\n      \"valor\": 48000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.62,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Detalle Empresa E S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900555555-5",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "598611bd-1c7c-4c33-b00d-3ed7636ec358",
+          "body": "{\n  \"nit\": \"900666666-6\",\n  \"razon_social\": \"Empresa F S.A.S.\",\n  \"ciiu_principal\": \"6201\",\n  \"ciiu_secundarios\": [\n    \"6202\",\n    \"6209\"\n  ],\n  \"estado\": \"Inactiva\",\n  \"fecha_constitucion\": \"2024-01-20\",\n  \"fuentes_consultadas\": [\n    \"RUES\",\n    \"Cámara de Comercio\",\n    \"Superintendencia de Sociedades\"\n  ],\n  \"score_global\": 0.55,\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"descripcion\": \"Número de empleados\",\n      \"valor\": 3,\n      \"unidad\": \"personas\",\n      \"periodo\": \"2024\",\n      \"score\": 0.58,\n      \"fuente_principal\": \"Superintendencia de Sociedades\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"descripcion\": \"Ingresos operacionales anuales\",\n      \"valor\": 42000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.53,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    },\n    {\n      \"codigo\": \"activos_totales\",\n      \"descripcion\": \"Activos totales\",\n      \"valor\": 21000000,\n      \"unidad\": \"COP\",\n      \"periodo\": \"2024\",\n      \"score\": 0.51,\n      \"fuente_principal\": \"Cámara de Comercio\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Detalle Empresa F S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900666666-6",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "ed81f64e-5af2-4566-8294-9565ce8c606c",
+          "body": "{\n  \"error\": \"NIT no encontrado\",\n  \"nit_consultado\": \"{{urlParam 'nit'}}\",\n  \"sugerencia\": \"Use uno de los NITs ficticios de la lista en /empresas\"\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "NIT no encontrado",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "2e43a818-f1b4-466f-b714-bbe711872500",
+      "documentation": "Desglose del score de confiabilidad por indicador y por fuente, con el cálculo explícito.",
+      "method": "get",
+      "endpoint": "empresas/:nit/score",
+      "responses": [
+        {
+          "uuid": "128e481d-1322-43f6-b011-409e94341004",
+          "body": "{\n  \"nit\": \"900111111-1\",\n  \"razon_social\": \"Empresa A S.A.S.\",\n  \"score_global\": 0.92,\n  \"formula\": \"score = 0.3*completitud + 0.3*actualidad + 0.4*tier_fuente\",\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"score_final\": 0.95,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.95,\n        \"tier_fuente\": 0.95,\n        \"calculo\": \"0.3*1.0 + 0.3*0.95 + 0.4*0.95 = 0.965\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 47,\n          \"tier\": 0.95\n        },\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 45,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"DANE\",\n          \"valor\": 50,\n          \"tier\": 0.7\n        }\n      ],\n      \"consenso\": \"Divergencia media entre fuentes. Se prioriza Supersociedades por mayor tier de confiabilidad.\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"score_final\": 0.9,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.9,\n        \"tier_fuente\": 0.85,\n        \"calculo\": \"0.3*1.0 + 0.3*0.90 + 0.4*0.85 = 0.910\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 1280000000,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 1305600000,\n          \"tier\": 0.95\n        }\n      ],\n      \"consenso\": \"Baja divergencia (<5%). Valor agregado por mayor frecuencia de reporte en Cámara de Comercio.\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Score Empresa A S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900111111-1",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "d7324b95-f890-4298-9703-3d492645da06",
+          "body": "{\n  \"nit\": \"900222222-2\",\n  \"razon_social\": \"Empresa B S.A.S.\",\n  \"score_global\": 0.85,\n  \"formula\": \"score = 0.3*completitud + 0.3*actualidad + 0.4*tier_fuente\",\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"score_final\": 0.88,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.95,\n        \"tier_fuente\": 0.95,\n        \"calculo\": \"0.3*1.0 + 0.3*0.95 + 0.4*0.95 = 0.965\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 23,\n          \"tier\": 0.95\n        },\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 21,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"DANE\",\n          \"valor\": 26,\n          \"tier\": 0.7\n        }\n      ],\n      \"consenso\": \"Divergencia media entre fuentes. Se prioriza Supersociedades por mayor tier de confiabilidad.\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"score_final\": 0.83,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.9,\n        \"tier_fuente\": 0.85,\n        \"calculo\": \"0.3*1.0 + 0.3*0.90 + 0.4*0.85 = 0.910\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 540000000,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 550800000,\n          \"tier\": 0.95\n        }\n      ],\n      \"consenso\": \"Baja divergencia (<5%). Valor agregado por mayor frecuencia de reporte en Cámara de Comercio.\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Score Empresa B S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900222222-2",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "dd894f53-5dc7-436f-b5c3-9c8bcef2fe4c",
+          "body": "{\n  \"nit\": \"900333333-3\",\n  \"razon_social\": \"Empresa C Ltda.\",\n  \"score_global\": 0.78,\n  \"formula\": \"score = 0.3*completitud + 0.3*actualidad + 0.4*tier_fuente\",\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"score_final\": 0.81,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.95,\n        \"tier_fuente\": 0.95,\n        \"calculo\": \"0.3*1.0 + 0.3*0.95 + 0.4*0.95 = 0.965\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 12,\n          \"tier\": 0.95\n        },\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 10,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"DANE\",\n          \"valor\": 15,\n          \"tier\": 0.7\n        }\n      ],\n      \"consenso\": \"Divergencia media entre fuentes. Se prioriza Supersociedades por mayor tier de confiabilidad.\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"score_final\": 0.76,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.9,\n        \"tier_fuente\": 0.85,\n        \"calculo\": \"0.3*1.0 + 0.3*0.90 + 0.4*0.85 = 0.910\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 210000000,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 214200000,\n          \"tier\": 0.95\n        }\n      ],\n      \"consenso\": \"Baja divergencia (<5%). Valor agregado por mayor frecuencia de reporte en Cámara de Comercio.\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Score Empresa C Ltda.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900333333-3",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "9aa6d60c-7188-45ce-b98d-498057d7d61b",
+          "body": "{\n  \"nit\": \"900444444-4\",\n  \"razon_social\": \"Empresa D S.A.\",\n  \"score_global\": 0.71,\n  \"formula\": \"score = 0.3*completitud + 0.3*actualidad + 0.4*tier_fuente\",\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"score_final\": 0.74,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.95,\n        \"tier_fuente\": 0.95,\n        \"calculo\": \"0.3*1.0 + 0.3*0.95 + 0.4*0.95 = 0.965\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 9,\n          \"tier\": 0.95\n        },\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 7,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"DANE\",\n          \"valor\": 12,\n          \"tier\": 0.7\n        }\n      ],\n      \"consenso\": \"Divergencia media entre fuentes. Se prioriza Supersociedades por mayor tier de confiabilidad.\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"score_final\": 0.69,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.9,\n        \"tier_fuente\": 0.85,\n        \"calculo\": \"0.3*1.0 + 0.3*0.90 + 0.4*0.85 = 0.910\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 180000000,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 183600000,\n          \"tier\": 0.95\n        }\n      ],\n      \"consenso\": \"Baja divergencia (<5%). Valor agregado por mayor frecuencia de reporte en Cámara de Comercio.\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Score Empresa D S.A.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900444444-4",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "2532f3eb-56a1-492e-a5bb-fcc622c3658d",
+          "body": "{\n  \"nit\": \"900555555-5\",\n  \"razon_social\": \"Empresa E S.A.S.\",\n  \"score_global\": 0.66,\n  \"formula\": \"score = 0.3*completitud + 0.3*actualidad + 0.4*tier_fuente\",\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"score_final\": 0.69,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.95,\n        \"tier_fuente\": 0.95,\n        \"calculo\": \"0.3*1.0 + 0.3*0.95 + 0.4*0.95 = 0.965\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 5,\n          \"tier\": 0.95\n        },\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 3,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"DANE\",\n          \"valor\": 8,\n          \"tier\": 0.7\n        }\n      ],\n      \"consenso\": \"Divergencia media entre fuentes. Se prioriza Supersociedades por mayor tier de confiabilidad.\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"score_final\": 0.64,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.9,\n        \"tier_fuente\": 0.85,\n        \"calculo\": \"0.3*1.0 + 0.3*0.90 + 0.4*0.85 = 0.910\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 95000000,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 96900000,\n          \"tier\": 0.95\n        }\n      ],\n      \"consenso\": \"Baja divergencia (<5%). Valor agregado por mayor frecuencia de reporte en Cámara de Comercio.\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Score Empresa E S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900555555-5",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "d867c812-a1f0-499c-b6ef-7572835c59ae",
+          "body": "{\n  \"nit\": \"900666666-6\",\n  \"razon_social\": \"Empresa F S.A.S.\",\n  \"score_global\": 0.55,\n  \"formula\": \"score = 0.3*completitud + 0.3*actualidad + 0.4*tier_fuente\",\n  \"indicadores\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"score_final\": 0.58,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.95,\n        \"tier_fuente\": 0.95,\n        \"calculo\": \"0.3*1.0 + 0.3*0.95 + 0.4*0.95 = 0.965\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 3,\n          \"tier\": 0.95\n        },\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 1,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"DANE\",\n          \"valor\": 6,\n          \"tier\": 0.7\n        }\n      ],\n      \"consenso\": \"Divergencia media entre fuentes. Se prioriza Supersociedades por mayor tier de confiabilidad.\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"score_final\": 0.53,\n      \"desglose\": {\n        \"completitud\": 1.0,\n        \"actualidad\": 0.9,\n        \"tier_fuente\": 0.85,\n        \"calculo\": \"0.3*1.0 + 0.3*0.90 + 0.4*0.85 = 0.910\"\n      },\n      \"fuentes\": [\n        {\n          \"nombre\": \"Cámara de Comercio\",\n          \"valor\": 42000000,\n          \"tier\": 0.85\n        },\n        {\n          \"nombre\": \"Superintendencia de Sociedades\",\n          \"valor\": 42840000,\n          \"tier\": 0.95\n        }\n      ],\n      \"consenso\": \"Baja divergencia (<5%). Valor agregado por mayor frecuencia de reporte en Cámara de Comercio.\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Score Empresa F S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900666666-6",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "6c5f8477-1e8e-4acc-9970-64dd650bb4d3",
+          "body": "{\n  \"error\": \"NIT no encontrado\"\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "NIT no encontrado",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "ba5001f9-5e95-451a-84ea-56292d165ea8",
+      "documentation": "Serie histórica (2015-2024) de un indicador para una empresa. Parámetro: indicador.",
+      "method": "get",
+      "endpoint": "empresas/:nit/historico",
+      "responses": [
+        {
+          "uuid": "c8af91e0-74e3-431f-921e-3340642a842f",
+          "body": "{\n  \"nit\": \"900111111-1\",\n  \"indicador\": \"num_empleados\",\n  \"descripcion\": \"Número de empleados\",\n  \"unidad\": \"personas\",\n  \"serie\": [\n    {\n      \"periodo\": \"2015\",\n      \"valor\": 7,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.8\n    },\n    {\n      \"periodo\": \"2016\",\n      \"valor\": 10,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.82\n    },\n    {\n      \"periodo\": \"2017\",\n      \"valor\": 13,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.83\n    },\n    {\n      \"periodo\": \"2018\",\n      \"valor\": 16,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.85\n    },\n    {\n      \"periodo\": \"2019\",\n      \"valor\": 20,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.86\n    },\n    {\n      \"periodo\": \"2020\",\n      \"valor\": 23,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.88\n    },\n    {\n      \"periodo\": \"2021\",\n      \"valor\": 26,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.89\n    },\n    {\n      \"periodo\": \"2022\",\n      \"valor\": 30,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.91\n    },\n    {\n      \"periodo\": \"2023\",\n      \"valor\": 33,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.92\n    },\n    {\n      \"periodo\": \"2024\",\n      \"valor\": 36,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.94\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Histórico empleados Empresa A S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900111111-1",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "1eb8d6f5-14ac-4f2c-93b4-6efe613cfbfe",
+          "body": "{\n  \"nit\": \"900222222-2\",\n  \"indicador\": \"num_empleados\",\n  \"descripcion\": \"Número de empleados\",\n  \"unidad\": \"personas\",\n  \"serie\": [\n    {\n      \"periodo\": \"2015\",\n      \"valor\": 3,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.8\n    },\n    {\n      \"periodo\": \"2016\",\n      \"valor\": 5,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.82\n    },\n    {\n      \"periodo\": \"2017\",\n      \"valor\": 6,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.83\n    },\n    {\n      \"periodo\": \"2018\",\n      \"valor\": 8,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.85\n    },\n    {\n      \"periodo\": \"2019\",\n      \"valor\": 9,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.86\n    },\n    {\n      \"periodo\": \"2020\",\n      \"valor\": 11,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.88\n    },\n    {\n      \"periodo\": \"2021\",\n      \"valor\": 13,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.89\n    },\n    {\n      \"periodo\": \"2022\",\n      \"valor\": 14,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.91\n    },\n    {\n      \"periodo\": \"2023\",\n      \"valor\": 16,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.92\n    },\n    {\n      \"periodo\": \"2024\",\n      \"valor\": 17,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.94\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Histórico empleados Empresa B S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900222222-2",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "66951825-a526-4eef-88d0-e4462d7a69dd",
+          "body": "{\n  \"nit\": \"900333333-3\",\n  \"indicador\": \"num_empleados\",\n  \"descripcion\": \"Número de empleados\",\n  \"unidad\": \"personas\",\n  \"serie\": [\n    {\n      \"periodo\": \"2015\",\n      \"valor\": 1,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.8\n    },\n    {\n      \"periodo\": \"2016\",\n      \"valor\": 2,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.82\n    },\n    {\n      \"periodo\": \"2017\",\n      \"valor\": 3,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.83\n    },\n    {\n      \"periodo\": \"2018\",\n      \"valor\": 4,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.85\n    },\n    {\n      \"periodo\": \"2019\",\n      \"valor\": 5,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.86\n    },\n    {\n      \"periodo\": \"2020\",\n      \"valor\": 6,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.88\n    },\n    {\n      \"periodo\": \"2021\",\n      \"valor\": 6,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.89\n    },\n    {\n      \"periodo\": \"2022\",\n      \"valor\": 7,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.91\n    },\n    {\n      \"periodo\": \"2023\",\n      \"valor\": 8,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.92\n    },\n    {\n      \"periodo\": \"2024\",\n      \"valor\": 9,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.94\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Histórico empleados Empresa C Ltda.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900333333-3",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "df2aca9a-ff14-4681-9fa3-4e2e15216455",
+          "body": "{\n  \"nit\": \"900444444-4\",\n  \"indicador\": \"num_empleados\",\n  \"descripcion\": \"Número de empleados\",\n  \"unidad\": \"personas\",\n  \"serie\": [\n    {\n      \"periodo\": \"2015\",\n      \"valor\": 1,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.8\n    },\n    {\n      \"periodo\": \"2016\",\n      \"valor\": 1,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.82\n    },\n    {\n      \"periodo\": \"2017\",\n      \"valor\": 2,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.83\n    },\n    {\n      \"periodo\": \"2018\",\n      \"valor\": 3,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.85\n    },\n    {\n      \"periodo\": \"2019\",\n      \"valor\": 3,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.86\n    },\n    {\n      \"periodo\": \"2020\",\n      \"valor\": 4,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.88\n    },\n    {\n      \"periodo\": \"2021\",\n      \"valor\": 5,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.89\n    },\n    {\n      \"periodo\": \"2022\",\n      \"valor\": 5,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.91\n    },\n    {\n      \"periodo\": \"2023\",\n      \"valor\": 6,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.92\n    },\n    {\n      \"periodo\": \"2024\",\n      \"valor\": 7,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.94\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Histórico empleados Empresa D S.A.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900444444-4",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "4c5f880e-93d2-4ba4-967c-548788ab4ae7",
+          "body": "{\n  \"nit\": \"900555555-5\",\n  \"indicador\": \"num_empleados\",\n  \"descripcion\": \"Número de empleados\",\n  \"unidad\": \"personas\",\n  \"serie\": [\n    {\n      \"periodo\": \"2015\",\n      \"valor\": 1,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.8\n    },\n    {\n      \"periodo\": \"2016\",\n      \"valor\": 1,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.82\n    },\n    {\n      \"periodo\": \"2017\",\n      \"valor\": 1,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.83\n    },\n    {\n      \"periodo\": \"2018\",\n      \"valor\": 1,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.85\n    },\n    {\n      \"periodo\": \"2019\",\n      \"valor\": 2,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.86\n    },\n    {\n      \"periodo\": \"2020\",\n      \"valor\": 2,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.88\n    },\n    {\n      \"periodo\": \"2021\",\n      \"valor\": 2,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.89\n    },\n    {\n      \"periodo\": \"2022\",\n      \"valor\": 3,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.91\n    },\n    {\n      \"periodo\": \"2023\",\n      \"valor\": 3,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.92\n    },\n    {\n      \"periodo\": \"2024\",\n      \"valor\": 3,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.94\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Histórico empleados Empresa E S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900555555-5",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "715e7687-1dfa-4409-809b-3249fbb568be",
+          "body": "{\n  \"nit\": \"900666666-6\",\n  \"indicador\": \"num_empleados\",\n  \"descripcion\": \"Número de empleados\",\n  \"unidad\": \"personas\",\n  \"serie\": [\n    {\n      \"periodo\": \"2015\",\n      \"valor\": 1,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.8\n    },\n    {\n      \"periodo\": \"2016\",\n      \"valor\": 1,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.82\n    },\n    {\n      \"periodo\": \"2017\",\n      \"valor\": 1,\n      \"fuente\": \"Cámara de Comercio\",\n      \"score\": 0.83\n    },\n    {\n      \"periodo\": \"2018\",\n      \"valor\": 1,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.85\n    },\n    {\n      \"periodo\": \"2019\",\n      \"valor\": 1,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.86\n    },\n    {\n      \"periodo\": \"2020\",\n      \"valor\": 1,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.88\n    },\n    {\n      \"periodo\": \"2021\",\n      \"valor\": 1,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.89\n    },\n    {\n      \"periodo\": \"2022\",\n      \"valor\": 1,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.91\n    },\n    {\n      \"periodo\": \"2023\",\n      \"valor\": 2,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.92\n    },\n    {\n      \"periodo\": \"2024\",\n      \"valor\": 2,\n      \"fuente\": \"Superintendencia de Sociedades\",\n      \"score\": 0.94\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Histórico empleados Empresa F S.A.S.",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "nit",
+              "value": "900666666-6",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "91a985bc-a074-4373-84e3-774129d4daa7",
+          "body": "{\n  \"error\": \"NIT no encontrado\"\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "NIT no encontrado",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "2515b0d7-ebd0-4315-be62-b480e674700a",
+      "documentation": "Catálogo de indicadores disponibles en el DataHub.",
+      "method": "get",
+      "endpoint": "indicadores",
+      "responses": [
+        {
+          "uuid": "db1f016b-ee83-449e-818e-7be70a98f8b0",
+          "body": "{\n  \"total\": 3,\n  \"items\": [\n    {\n      \"codigo\": \"num_empleados\",\n      \"descripcion\": \"Número de empleados\",\n      \"unidad\": \"personas\"\n    },\n    {\n      \"codigo\": \"ingresos_anuales\",\n      \"descripcion\": \"Ingresos operacionales anuales\",\n      \"unidad\": \"COP\"\n    },\n    {\n      \"codigo\": \"activos_totales\",\n      \"descripcion\": \"Activos totales\",\n      \"unidad\": \"COP\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "type": "http"
+    },
+    {
+      "uuid": "855dc398-e70d-42eb-bcec-a6b3aed9afe6",
+      "documentation": "Fuentes de datos con su tier de confiabilidad y tipo de ingesta.",
+      "method": "get",
+      "endpoint": "fuentes",
+      "responses": [
+        {
+          "uuid": "e2a05f89-0209-4633-a3d3-baca52635ebc",
+          "body": "{\n  \"total\": 5,\n  \"items\": [\n    {\n      \"id\": 1,\n      \"nombre\": \"RUES\",\n      \"tier\": 0.9,\n      \"tipo\": \"scraping\",\n      \"url_base\": \"https://www.rues.org.co\",\n      \"ultima_ingesta\": \"2026-05-18T22:00:00Z\"\n    },\n    {\n      \"id\": 2,\n      \"nombre\": \"Cámara de Comercio\",\n      \"tier\": 0.85,\n      \"tipo\": \"scraping\",\n      \"url_base\": \"https://www.ccmedellin.com.co\",\n      \"ultima_ingesta\": \"2026-05-18T22:00:00Z\"\n    },\n    {\n      \"id\": 3,\n      \"nombre\": \"Superintendencia de Sociedades\",\n      \"tier\": 0.95,\n      \"tipo\": \"scraping\",\n      \"url_base\": \"https://www.supersociedades.gov.co\",\n      \"ultima_ingesta\": \"2026-05-18T22:00:00Z\"\n    },\n    {\n      \"id\": 4,\n      \"nombre\": \"DIAN\",\n      \"tier\": 0.95,\n      \"tipo\": \"scraping\",\n      \"url_base\": \"https://www.dian.gov.co\",\n      \"ultima_ingesta\": \"2026-05-18T22:00:00Z\"\n    },\n    {\n      \"id\": 5,\n      \"nombre\": \"DANE\",\n      \"tier\": 0.7,\n      \"tipo\": \"file\",\n      \"url_base\": \"https://www.dane.gov.co\",\n      \"ultima_ingesta\": \"2026-05-18T22:00:00Z\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "OK",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "type": "http"
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "d104b99b-9434-49d3-a57f-1d5f954d1210"
+    },
+    {
+      "type": "route",
+      "uuid": "06842c4a-2c7a-43aa-8c5b-ad2abc921b44"
+    },
+    {
+      "type": "route",
+      "uuid": "1d2c74af-2dbc-4d92-b515-b9565283272c"
+    },
+    {
+      "type": "route",
+      "uuid": "2e43a818-f1b4-466f-b714-bbe711872500"
+    },
+    {
+      "type": "route",
+      "uuid": "ba5001f9-5e95-451a-84ea-56292d165ea8"
+    },
+    {
+      "type": "route",
+      "uuid": "2515b0d7-ebd0-4315-be62-b480e674700a"
+    },
+    {
+      "type": "route",
+      "uuid": "855dc398-e70d-42eb-bcec-a6b3aed9afe6"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json; charset=utf-8"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
