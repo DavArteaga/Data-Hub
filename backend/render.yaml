@@ -1,0 +1,30 @@
+# Render Blueprint — DataCore Hub backend
+# Connect this repo in https://dashboard.render.com/blueprints
+# and Render will pick this file up automatically.
+services:
+  - type: web
+    name: datacore-hub-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: APP_NAME
+        value: DataCore Hub API
+      - key: APP_VERSION
+        value: 0.1.0
+      - key: DEBUG
+        value: "false"
+      # Use absolute path inside Render's filesystem so SQLite is writable
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:////tmp/datahub.db
+      # CORS — wildcard is OK because we don't use cookies; once Vercel URL
+      # is known, replace with the actual host for a stricter policy.
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: SCRAPER_TIMEOUT
+        value: "30"
+      - key: PYTHONUNBUFFERED
+        value: "1"
