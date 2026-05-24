@@ -173,8 +173,8 @@ DataCoreHub_MVP/
 ├── README.md                    ← este archivo
 ├── .gitignore
 ├── prototipo_mockoon/           ← contrato JSON de referencia (NO modificar)
+├── render.yaml                  ← config para Render (debe ir en la raíz)
 ├── backend/
-│   ├── render.yaml              ← config para Render
 │   ├── Procfile                 ← alternativa Railway/Heroku
 │   ├── runtime.txt              ← Python 3.11.9
 │   ├── requirements.txt
