@@ -37,38 +37,46 @@ router = APIRouter(prefix="/empresas", tags=["empresas"])
 # ---------------------------------------------------------------------------
 
 async def _compute_empresa_score(session: AsyncSession, nit: str) -> float:
-    """Global score = average of best score per indicator for the most recent year."""
-    best_vals = await _best_valor_per_indicador(session, nit, latest_year=2024)
+    """Global score = average of best score per indicator for the most recent
+    year available for that indicator (per-indicador latest, not hardcoded)."""
+    best_vals = await _best_valor_per_indicador(session, nit)
     if not best_vals:
         return 0.0
     return round(sum(v.score for v in best_vals) / len(best_vals), 4)
 
 
 async def _best_valor_per_indicador(
-    session: AsyncSession, nit: str, latest_year: int = 2024
+    session: AsyncSession, nit: str
 ) -> list[Valor]:
-    """Return the highest-score Valor per indicador for the latest year."""
-    # Subquery: max score per indicador in 2024
-    subq = (
+    """Return the highest-score Valor per indicador, picking each indicador's
+    most recent year that has data for this NIT.
+
+    This is per-indicador so that an empresa that has, e.g., ingresos for
+    2024 but only num_empleados for 2017 still shows both — using the most
+    recent data we have.
+    """
+    # Subquery: latest year with data per (nit, indicador_id)
+    latest_year_subq = (
         select(
             Valor.indicador_id,
-            func.max(Valor.score).label("max_score"),
+            func.max(Periodo.anio).label("latest_anio"),
         )
         .join(Periodo, Valor.periodo_id == Periodo.id)
-        .where(Valor.nit == nit, Periodo.anio == latest_year)
+        .where(Valor.nit == nit)
         .group_by(Valor.indicador_id)
         .subquery()
     )
 
+    # Pull all valores matching (nit, indicador_id, that latest year)
     stmt = (
         select(Valor)
-        .join(
-            subq,
-            (Valor.indicador_id == subq.c.indicador_id)
-            & (Valor.score == subq.c.max_score),
-        )
         .join(Periodo, Valor.periodo_id == Periodo.id)
-        .where(Valor.nit == nit, Periodo.anio == latest_year)
+        .join(
+            latest_year_subq,
+            (Valor.indicador_id == latest_year_subq.c.indicador_id)
+            & (Periodo.anio == latest_year_subq.c.latest_anio),
+        )
+        .where(Valor.nit == nit)
         .options(
             selectinload(Valor.indicador),
             selectinload(Valor.fuente),
@@ -77,7 +85,7 @@ async def _best_valor_per_indicador(
     )
     result = await session.execute(stmt)
     all_rows = list(result.scalars().unique().all())
-    # Keep only the best row per indicador (highest tier as tiebreaker)
+    # Keep only the best row per indicador (highest score, then highest tier as tiebreaker)
     seen: dict[int, Valor] = {}
     for v in sorted(all_rows, key=lambda x: (x.score, x.fuente.tier), reverse=True):
         if v.indicador_id not in seen:
@@ -153,15 +161,15 @@ async def get_empresa(
 
     best_valores = await _best_valor_per_indicador(db, nit)
 
-    # Collect ALL fuentes that have data for this company in 2024
-    all_2024_stmt = (
+    # Collect ALL fuentes that have ever provided data for this empresa
+    # (no year filter — a fuente that reported in 2017 still counts as consulted)
+    fuentes_stmt = (
         select(Valor)
-        .join(Periodo, Valor.periodo_id == Periodo.id)
-        .where(Valor.nit == nit, Periodo.anio == 2024)
+        .where(Valor.nit == nit)
         .options(selectinload(Valor.fuente))
     )
-    all_2024_result = await db.execute(all_2024_stmt)
-    fuentes_set: set[str] = {v.fuente.nombre for v in all_2024_result.scalars().unique().all()}
+    fuentes_result = await db.execute(fuentes_stmt)
+    fuentes_set: set[str] = {v.fuente.nombre for v in fuentes_result.scalars().unique().all()}
 
     indicadores_out: list[EmpresaIndicador] = []
     for v in best_valores:
@@ -207,11 +215,27 @@ async def get_empresa_score(
     if empresa is None:
         raise HTTPException(status_code=404, detail=f"Empresa '{nit}' not found")
 
-    # Load 2024 valores with all joins
+    # Load valores from the latest year available per indicador (not 2024
+    # hardcoded — real data from datos.gov.co can be from 2017 or earlier).
+    latest_year_subq = (
+        select(
+            Valor.indicador_id,
+            func.max(Periodo.anio).label("latest_anio"),
+        )
+        .join(Periodo, Valor.periodo_id == Periodo.id)
+        .where(Valor.nit == nit)
+        .group_by(Valor.indicador_id)
+        .subquery()
+    )
     stmt = (
         select(Valor)
         .join(Periodo, Valor.periodo_id == Periodo.id)
-        .where(Valor.nit == nit, Periodo.anio == 2024)
+        .join(
+            latest_year_subq,
+            (Valor.indicador_id == latest_year_subq.c.indicador_id)
+            & (Periodo.anio == latest_year_subq.c.latest_anio),
+        )
+        .where(Valor.nit == nit)
         .options(
             selectinload(Valor.indicador),
             selectinload(Valor.fuente),
