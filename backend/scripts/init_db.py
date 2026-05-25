@@ -128,6 +128,36 @@ EMPRESAS_SEED = [
         "fecha_constitucion": date(2012, 6, 14),
         "estado": "Inactiva",
     },
+    # ── Empresas REALES (NITs vigilados por Superintendencia de Sociedades
+    #     y presentes en los datasets de datos.gov.co que consume el scraper)
+    # Estas tres no traen BASE_VALUES — quedan vacías hasta que se dispare
+    # `POST /api/v1/ingesta/datos.gov.co`, momento en el cual se pueblan
+    # con datos reales. Útil para la demo: muestra el contraste entre seed
+    # sintético y datos vivos del Estado colombiano.
+    {
+        "nit": "900459737-5",
+        "razon_social": "Cementos Argos S.A.",
+        "ciiu_principal": "2394",  # Fabricación de cemento, cal y yeso
+        "ciiu_secundarios": ["2395"],
+        "fecha_constitucion": date(1934, 2, 26),
+        "estado": "Activa",
+    },
+    {
+        "nit": "830126302-2",
+        "razon_social": "Constructora Bolívar S.A.",
+        "ciiu_principal": "4111",  # Construcción de edificios residenciales
+        "ciiu_secundarios": ["4112"],
+        "fecha_constitucion": date(1969, 6, 13),
+        "estado": "Activa",
+    },
+    {
+        "nit": "830122566-1",
+        "razon_social": "Grupo Aval Acciones y Valores S.A.",
+        "ciiu_principal": "6420",  # Sociedades de cartera (holdings)
+        "ciiu_secundarios": ["6499"],
+        "fecha_constitucion": date(1994, 12, 7),
+        "estado": "Activa",
+    },
 ]
 
 # Base 2024 values per company per indicator
